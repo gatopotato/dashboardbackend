@@ -18,6 +18,10 @@ const relationshipManagerSchema = new Schema(
       type: Date,
       required: true,
     },
+    headId: {
+      type: Schema.Types.ObjectId,
+      ref: "Head",
+    },
   },
   { timestamps: true }
 );
