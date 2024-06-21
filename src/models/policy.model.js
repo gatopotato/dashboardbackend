@@ -27,11 +27,15 @@ const policySchema = new Schema(
     agentID: {
       type: Schema.Types.ObjectId,
       ref: "Agent",
-      required: true,
     },
-    rmid: {
+    rmId: {
       type: Schema.Types.ObjectId,
       ref: "RelationshipManager",
+      required: true,
+    },
+    headId: {
+      type: Schema.Types.ObjectId,
+      ref: "Head",
       required: true,
     },
     ncb: {
@@ -54,22 +58,18 @@ const policySchema = new Schema(
       type: Number,
       required: true,
     },
-    nomineeName: {
-      type: String,
-      required: true,
-    },
-    nomineeAge: {
-      type: Number,
-      required: true,
-    },
-    nomineeRelation: {
-      type: String,
-      required: true,
-    },
-    nomineeDoc: {
-      type: String,
-      required: true,
-    },
+    // nomineeName: {
+    //   type: String,
+    //   required: true,
+    // },
+    // nomineeAge: {
+    //   type: Number,
+    //   required: true,
+    // },
+    // nomineeRelation: {
+    //   type: String,
+    //   required: true,
+    // }
   },
   { timestamps: true }
 );
