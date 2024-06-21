@@ -6,7 +6,13 @@ import { Head } from "../models/head.model.js";
 import { Agent } from "../models/agent.model.js";
 import { RelationshipManager } from "../models/relationshipManager.model.js";
 const getPolicies = asyncHandler(async (req, res) => {
-  const allData = await Policy.aggregate();
+  const allData = await Policy.aggregate([
+    {
+      $project: {
+        _id: 1,
+      },
+    },
+  ]);
   return res
     .status(200)
     .json(new apiResponse(200, allData, "All data returned."));
