@@ -31,7 +31,7 @@ const getrRequiredRms = asyncHandler(async (req, res) => {
   let data = await RelationshipManager.aggregate([
     {
       $match: {
-        headId: ObjectId(headid),
+        headId: headid,
       },
     },
     {

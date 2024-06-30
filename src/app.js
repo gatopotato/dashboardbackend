@@ -27,6 +27,6 @@ import relationshipManagerRouter from "./routes/relationshipManager.routes.js";
 app.use("/api/v2/agent", agentRouter);
 app.use("/api/v2/head", headRouter);
 app.use("/api/v2/policy", policyRouter);
-app.use("/api/v2/relationshipManager", relationshipManagerRouter);
+app.use("/api/v2/rm", relationshipManagerRouter);
 
 export default app;

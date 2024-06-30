@@ -8,5 +8,5 @@ import {
 const router = Router();
 router.get("/", getAgents);
 router.get("/rm/:relationshipManagerID", getRequiredAgents);
-router.get("/head/:headID", getRequiredAgents);
+router.get("/head/:headID", getRequiredAgentsbyhead);
 export default router;

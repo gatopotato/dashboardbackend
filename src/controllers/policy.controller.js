@@ -10,6 +10,7 @@ const getPolicies = asyncHandler(async (req, res) => {
     {
       $project: {
         _id: 1,
+        policyNumber: 1,
       },
     },
   ]);
@@ -27,7 +28,7 @@ const getPolicybyHead = asyncHandler(async (req, res) => {
   const data = await Policy.aggregate([
     {
       $match: {
-        head: headId,
+        headId: headId,
       },
     },
   ]);
@@ -45,7 +46,7 @@ const getPolicybyRM = asyncHandler(async (req, res) => {
   const data = await Policy.aggregate([
     {
       $match: {
-        relationshipManager: relationshipManagerId,
+        rmId: relationshipManagerId,
       },
     },
   ]);
@@ -65,7 +66,7 @@ const getPolicybyAgent = asyncHandler(async (req, res) => {
   const data = await Policy.aggregate([
     {
       $match: {
-        agent: agentId,
+        agentID: agentId,
       },
     },
   ]);

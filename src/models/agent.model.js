@@ -23,6 +23,10 @@ const agentSchema = new Schema(
       ref: "RelationshipManager",
       required: true,
     },
+    headId:{
+      type: Schema.Types.ObjectId,
+      ref: "Head"
+    },
     commision: {
       type: Number,
       required: true,

@@ -31,7 +31,7 @@ const getRequiredAgents = asyncHandler(async (req, res) => {
   let data = await Agent.aggregate([
     {
       $match: {
-        relationshipManagerID: ObjectId(relationshipManagerID),
+        relationshipManagerID: relationshipManagerID,
       },
     },
     {
@@ -59,7 +59,7 @@ const getRequiredAgentsbyhead = asyncHandler(async (req, res) => {
   let data = await Agent.aggregate([
     {
       $match: {
-        headId: ObjectId(headID),
+        headId: headID,
       },
     },
     {
