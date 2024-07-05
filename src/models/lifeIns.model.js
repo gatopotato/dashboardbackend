@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 
 const lifeInsuranceSchema = new Schema(
   {
-    productID: {
+    productId: {
       type: Schema.Types.ObjectId,
       ref: "Product",
       required: true,

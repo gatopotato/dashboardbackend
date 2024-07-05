@@ -4,6 +4,16 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { apiError } from "../utils/apiError.js";
 import { Head } from "../models/head.model.js";
 
+const generateRmId = async()=>{
+  let corpInsId = "AIBRM"+ (""+Math.random()).substring(2,7);
+  let checkCorpIns = await CorporateInsurance.findOne({corpInsId});
+  while(checkCorpIns){
+      corpInsId = "AIBRM"+ (""+Math.random()).substring(2,7);
+      checkCorpIns = await CorporateInsurance.findOne({corpInsId});
+  }
+  return corpInsId;
+};
+
 const getRelationshipManagers = asyncHandler(async (req, res) => {
   let data = await RelationshipManager.aggregate([
     {
@@ -20,9 +30,9 @@ const getRelationshipManagers = asyncHandler(async (req, res) => {
 });
 
 const getrRequiredRms = asyncHandler(async (req, res) => {
-  const { headid } = req.params;
+  const { headId } = req.params;
 
-  const head = await Head.findById(headid);
+  const head = await Head.findById(headId);
 
   if (!head) {
     throw new apiError(404, "Head not found.");
@@ -31,7 +41,7 @@ const getrRequiredRms = asyncHandler(async (req, res) => {
   let data = await RelationshipManager.aggregate([
     {
       $match: {
-        headId: headid,
+        headId: headId,
       },
     },
     {

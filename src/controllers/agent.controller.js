@@ -4,6 +4,17 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { RelationshipManager } from "../models/relationshipManager.model.js";
 import { Head } from "../models/head.model.js";
 import { apiError } from "../utils/apiError.js";
+
+const generateAgentId = async()=>{
+  let corpInsId = "AIBAG"+ (""+Math.random()).substring(2,7);
+  let checkCorpIns = await CorporateInsurance.findOne({corpInsId});
+  while(checkCorpIns){
+      corpInsId = "AIBAG"+ (""+Math.random()).substring(2,7);
+      checkCorpIns = await CorporateInsurance.findOne({corpInsId});
+  }
+  return corpInsId;
+};
+
 const getAgents = asyncHandler(async (req, res) => {
   let data = await Agent.aggregate([
     {
@@ -18,10 +29,10 @@ const getAgents = asyncHandler(async (req, res) => {
 });
 
 const getRequiredAgents = asyncHandler(async (req, res) => {
-  const { relationshipManagerID } = req.params;
+  const { relationshipManagerId } = req.params;
 
   const relationshipManager = await RelationshipManager.findById(
-    relationshipManagerID
+    relationshipManagerId
   );
 
   if (!relationshipManager) {
@@ -31,7 +42,7 @@ const getRequiredAgents = asyncHandler(async (req, res) => {
   let data = await Agent.aggregate([
     {
       $match: {
-        relationshipManagerID: relationshipManagerID,
+        relationshipManagerId: relationshipManagerId,
       },
     },
     {
@@ -46,10 +57,10 @@ const getRequiredAgents = asyncHandler(async (req, res) => {
 });
 
 const getRequiredAgentsbyhead = asyncHandler(async (req, res) => {
-  const { headID } = req.params;
+  const { headId } = req.params;
 
   const head = await Head.findById(
-    headID
+    headId
   );
 
   if (!head) {
@@ -59,7 +70,7 @@ const getRequiredAgentsbyhead = asyncHandler(async (req, res) => {
   let data = await Agent.aggregate([
     {
       $match: {
-        headId: headID,
+        headId: headId,
       },
     },
     {
@@ -71,6 +82,10 @@ const getRequiredAgentsbyhead = asyncHandler(async (req, res) => {
   ]);
 
   return res.status(200).json(new apiResponse(200, data, "Agents returned."));
+});
+
+const registerAgent = asyncHandler(async (req, res) => {
+  
 });
 
 export { getAgents, getRequiredAgents, getRequiredAgentsbyhead };

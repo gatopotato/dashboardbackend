@@ -6,12 +6,12 @@ const policySchema = new Schema(
       type: String,
       required: true,
     },
-    customerID: {
+    customerId: {
       type: Schema.Types.ObjectId,
       ref: "Customer",
       required: true,
     },
-    productID: {
+    productId: {
       type: Schema.Types.ObjectId,
       ref: "Product",
       required: true,
@@ -24,7 +24,7 @@ const policySchema = new Schema(
       type: Date,
       required: true,
     },
-    agentID: {
+    agentId: {
       type: Schema.Types.ObjectId,
       ref: "Agent",
     },

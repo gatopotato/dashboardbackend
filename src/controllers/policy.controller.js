@@ -66,7 +66,7 @@ const getPolicybyAgent = asyncHandler(async (req, res) => {
   const data = await Policy.aggregate([
     {
       $match: {
-        agentID: agentId,
+        agentId: agentId,
       },
     },
   ]);

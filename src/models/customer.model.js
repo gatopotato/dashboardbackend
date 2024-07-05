@@ -2,6 +2,11 @@ import mongoose, { Schema } from "mongoose";
 
 const customerSchema = new Schema(
   {
+    custId:{
+      type: String,
+      required: true,
+      unique: true
+    },
     name: {
       type: String,
       required: true,
@@ -18,11 +23,7 @@ const customerSchema = new Schema(
       type: Date,
       required: true,
     },
-    kyc: {
-      type: String,
-      required: true,
-    },
-    relationshipManagerID: {
+    relationshipManagerId: {
       type: Schema.Types.ObjectId,
       ref: "RelationshipManager",
       required: true,

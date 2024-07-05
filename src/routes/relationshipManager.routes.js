@@ -7,6 +7,6 @@ import {
 const router = express.Router();
 
 router.get("/", getRelationshipManagers);
-router.get("/:headid", getrRequiredRms);
+router.get("/:headId", getrRequiredRms);
 
 export default router;
