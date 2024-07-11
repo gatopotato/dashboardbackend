@@ -1,35 +1,39 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema } from 'mongoose';
 
 const customerSchema = new Schema(
-  {
-    custId:{
-      type: String,
-      required: true,
-      unique: true
+    {
+        custId: {
+            type: String,
+            required: true,
+            unique: true,
+        },
+        name: {
+            type: String,
+            required: true,
+        },
+        address: {
+            type: String,
+            required: true,
+        },
+        contactDetails: {
+            type: String,
+            required: true,
+        },
+        dateOfBirth: {
+            type: Date,
+            required: true,
+        },
+        relationshipManagerId: {
+            type: Schema.Types.ObjectId,
+            ref: 'RelationshipManager',
+            required: true,
+        },
+        agentId: {
+            type: Schema.Types.ObjectId,
+            ref: 'Agent',
+        },
     },
-    name: {
-      type: String,
-      required: true,
-    },
-    address: {
-      type: String,
-      required: true,
-    },
-    contactDetails: {
-      type: String,
-      required: true,
-    },
-    dateOfBirth: {
-      type: Date,
-      required: true,
-    },
-    relationshipManagerId: {
-      type: Schema.Types.ObjectId,
-      ref: "RelationshipManager",
-      required: true,
-    },
-  },
-  { timestamps: true }
+    { timestamps: true }
 );
 
-export const Customer = mongoose.model("Customer", customerSchema);
+export const Customer = mongoose.model('Customer', customerSchema);

@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 import jwt from "jsonwebtoken";
-
+import bcrypt from "bcrypt";
 const agentSchema = new Schema(
   { 
     agentId:{
@@ -49,7 +49,18 @@ const agentSchema = new Schema(
 );
 
 agentSchema.methods.isPasswordCorrect = async function(password){
-  return await bcrypt.compare(password, this.password)
+  try {
+    
+    if (!password || !this.password) {
+        throw new Error("Missing password or hashed password");
+    }
+
+    const isMatch = await bcrypt.compare(password, this.password);
+    return isMatch;
+} catch (error) {
+    console.error("Error comparing passwords:", error);
+    throw error;
+}
 }
 
 agentSchema.methods.generateAccessToken = function(){

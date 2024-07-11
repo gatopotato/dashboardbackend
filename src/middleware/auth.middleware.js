@@ -3,9 +3,9 @@ import {apiError} from "../utils/apiError.js"
 import {asyncHandler} from "../utils/asyncHandler.js"
 import { Head } from "../models/head.model.js";
 import { RelationshipManager } from "../models/relationshipManager.model.js";
-import { Agent } from "../models/agent.model";
+import { Agent } from "../models/agent.model.js";
 
-const verifyHead = asyncHandler(async(req,_,next)=>{
+const verifyHead = asyncHandler(async(req,res,next)=>{
     try {
         const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "");
         if(!token){
@@ -16,7 +16,7 @@ const verifyHead = asyncHandler(async(req,_,next)=>{
         if(!head){
             throw new apiError(401,"Invalid Token.")
         }
-        req.head = head;
+        res.head = head;
         next()
     
     } catch (error) {
@@ -24,8 +24,9 @@ const verifyHead = asyncHandler(async(req,_,next)=>{
     }
 });
 
-const verifyRm = asyncHandler(async(req,_,next)=>{
+const verifyRm = asyncHandler(async(req,res,next)=>{
     try {
+        console.log("hello");
         const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "");
         if(!token){
             throw apiError(401, "Authorization Token not found.");
@@ -35,15 +36,15 @@ const verifyRm = asyncHandler(async(req,_,next)=>{
         if(!rm){
             throw new apiError(401,"Invalid Token.")
         }
-        req.rm = rm;
+        res.rm = rm;
         next()
     
     } catch (error) {
-        throw new apiError(401, "Unauthorized request.");
+        throw new apiError(401, error );
     }
 });
 
-const verifyAgent = asyncHandler(async(req,_,next)=>{
+const verifyAgent = asyncHandler(async(req,res,next)=>{
     try {
         const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "");
         if(!token){
@@ -54,7 +55,7 @@ const verifyAgent = asyncHandler(async(req,_,next)=>{
         if(!agent){
             throw new apiError(401,"Invalid Token.")
         }
-        req.agent = agent;
+        res.agent = agent;
         next()
     
     } catch (error) {
