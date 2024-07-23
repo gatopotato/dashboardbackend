@@ -32,6 +32,12 @@ const customerSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: 'Agent',
         },
+        token: {
+            type: String,
+        },
+        tokenExpire: {
+            type: Date,
+        },
     },
     { timestamps: true }
 );

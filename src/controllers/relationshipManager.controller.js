@@ -45,7 +45,7 @@ const registerRM = asyncHandler(async (req, res) => {
         password,
         position,
         hireDate,
-        headId
+        headId,
     } = req.body;
     if (
         !(
@@ -66,11 +66,11 @@ const registerRM = asyncHandler(async (req, res) => {
     if (!head) {
         throw new apiError(404, 'Head not found.');
     }
-    
+
     const rmId = await generateRMId();
     const hashedPassword = await hashPassword(password);
     const relationshipManager = await RelationshipManager.create({
-        relationshipManagerId:rmId,
+        relationshipManagerId: rmId,
         name,
         emailId,
         address,
@@ -97,7 +97,9 @@ const loginRM = asyncHandler(async (req, res) => {
     if (!(relationshipManagerId || password)) {
         throw new apiError(400, 'All fields are required.');
     }
-    const relationshipManager = await RelationshipManager.findOne({ relationshipManagerId });
+    const relationshipManager = await RelationshipManager.findOne({
+        relationshipManagerId,
+    });
     if (!relationshipManager) {
         throw new apiError(404, 'Relationship Manager not found.');
     }
@@ -116,8 +118,8 @@ const loginRM = asyncHandler(async (req, res) => {
     ).select('-password -refreshToken');
 
     const options = {
-        httpOnly: true,
-        secure: true,
+        // httpOnly: true,
+        // secure: true,
     };
 
     return res
@@ -152,8 +154,8 @@ const logoutRM = asyncHandler(async (req, res) => {
     );
 
     const options = {
-        httpOnly: true,
-        secure: true,
+        // httpOnly: true,
+        // secure: true,
     };
 
     return res
@@ -199,8 +201,8 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
         );
 
         const options = {
-            httpOnly: true,
-            secure: true,
+            // httpOnly: true,
+            // secure: true,
         };
 
         return res
@@ -257,9 +259,9 @@ const changePassword = asyncHandler(async (req, res) => {
 
 const updateRMDetails = asyncHandler(async (req, res) => {
     const relationshipManager = res.rm;
-    const { name, emailId, address, contactDetails,position } = req.body;
+    const { name, emailId, address, contactDetails, position } = req.body;
 
-    if (!(name || emailId || address || contactDetails||position)) {
+    if (!(name || emailId || address || contactDetails || position)) {
         throw new apiError(400, 'All fields are required.');
     }
 
@@ -269,16 +271,15 @@ const updateRMDetails = asyncHandler(async (req, res) => {
     relationshipManager.contactDetails = contactDetails;
     relationshipManager.position = position;
 
-    const newRM = await relationshipManager.save({ validateBeforeSave: false },{new:true});
+    const newRM = await relationshipManager.save(
+        { validateBeforeSave: false },
+        { new: true }
+    );
 
     return res
         .status(200)
         .json(
-            new apiResponse(
-                200,
-                newRM,
-                'Relationship Manager details updated.'
-            )
+            new apiResponse(200, newRM, 'Relationship Manager details updated.')
         );
 });
 
@@ -299,14 +300,14 @@ const getRMs = asyncHandler(async (req, res) => {
 
 const getRequiredRMsByHead = asyncHandler(async (req, res) => {
     const { headId } = req.params;
-    console.log(headId)
+    console.log(headId);
     const head = await Head.findById(headId);
 
     if (!head) {
         throw new apiError(404, 'Head not found.');
     }
     console.log(head._id);
-    let data = await RelationshipManager.find({ headId: head._id});
+    let data = await RelationshipManager.find({ headId: head._id });
 
     return res
         .status(200)
@@ -316,7 +317,9 @@ const getRequiredRMsByHead = asyncHandler(async (req, res) => {
 const getRMDetails = asyncHandler(async (req, res) => {
     const { relationshipManagerId } = req.params;
 
-    const relationshipManager = await RelationshipManager.findById(relationshipManagerId);
+    const relationshipManager = await RelationshipManager.findById(
+        relationshipManagerId
+    );
 
     if (!relationshipManager) {
         throw new apiError(404, 'Relationship Manager not found.');
@@ -335,13 +338,17 @@ const getRMDetails = asyncHandler(async (req, res) => {
 
 const getRMPolicies = asyncHandler(async (req, res) => {
     const { relationshipManagerId } = req.params;
-    const relationshipManager = await RelationshipManager.findById(relationshipManagerId);
+    const relationshipManager = await RelationshipManager.findById(
+        relationshipManagerId
+    );
 
     if (!relationshipManager) {
         throw new apiError(404, 'Relationship Manager not found.');
     }
 
-    let data = await Policy.find({ relationshipManagerId: relationshipManager._id });
+    let data = await Policy.find({
+        relationshipManagerId: relationshipManager._id,
+    });
 
     return res
         .status(200)

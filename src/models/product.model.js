@@ -1,26 +1,26 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema } from 'mongoose';
 
 const productSchema = new Schema(
-  {
-    policyId: {
-      type: String,
-      required: true,
+    {
+        policyId: {
+            type: String,
+            // required: true,
+        },
+        insCompanyId: {
+            type: Schema.Types.ObjectId,
+            ref: 'InsCompany',
+            required: true,
+        },
+        type: {
+            type: String,
+            required: true,
+        },
+        planName: {
+            type: String,
+            required: true,
+        },
     },
-    insCompanyId: {
-      type: Schema.Types.ObjectId,
-      ref: "InsCompany",
-      required: true,
-    },
-    type: {
-      type: String,
-      required: true,
-    },
-    planName: {
-      type: String,
-      required: true,
-    },
-  },
-  { timestamps: true }
+    { timestamps: true }
 );
 
-export const Product = mongoose.model("Product", productSchema);
+export const Product = mongoose.model('Product', productSchema);
