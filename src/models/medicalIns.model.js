@@ -1,13 +1,13 @@
 import mongoose, { Schema } from 'mongoose';
 
-const corporateInsuranceSchema = new Schema(
+const medicalInsuranceSchema = new Schema(
     {
         productId: {
             type: Schema.Types.ObjectId,
             ref: 'Product',
-            // required: true,
+            required: true,
         },
-        corporateInsuranceId: {
+        medicalInsuranceId: {
             type: String,
             required: true,
             unique: true,
@@ -16,7 +16,7 @@ const corporateInsuranceSchema = new Schema(
     { timestamps: true }
 );
 
-export const CorporateInsurance = mongoose.model(
-    'CorporateInsurance',
-    corporateInsuranceSchema
+export const MedicalInsurance = mongoose.model(
+    'MedicalInsurance',
+    medicalInsuranceSchema
 );

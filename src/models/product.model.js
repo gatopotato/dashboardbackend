@@ -4,7 +4,7 @@ const productSchema = new Schema(
     {
         policyId: {
             type: String,
-            // required: true,
+            required: true,
         },
         insCompanyId: {
             type: Schema.Types.ObjectId,
@@ -15,7 +15,15 @@ const productSchema = new Schema(
             type: String,
             required: true,
         },
+        insId: {
+            type: Schema.Types.ObjectId,
+            required: true,
+        },
         planName: {
+            type: String,
+            required: true,
+        },
+        productId: {
             type: String,
             required: true,
         },

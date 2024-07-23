@@ -1,42 +1,52 @@
-import { CorporateInsurance } from "../models/corpIns.model.js";
-import asynchandler from '../utils/asyncHandler.js'
-import apiResponse from '../utils/apiresponse.js';
-import apiError from '../utils/apiError.js';
+import { CorporateInsurance } from '../models/corpIns.model.js';
+import { asyncHandler } from '../utils/asyncHandler.js';
+import { apiResponse } from '../utils/apiresponse.js';
+import { apiError } from '../utils/apiError.js';
 
-const generateCorpInsId = async()=>{
-    let corpInsId = "AIBICI"+ (""+Math.random()).substring(2,8);
-    let checkCorpIns = await CorporateInsurance.findOne({corpInsId});
-    while(checkCorpIns){
-        corpInsId = "AIBICI"+ (""+Math.random()).substring(2,8);
-        checkCorpIns = await CorporateInsurance.findOne({corpInsId});
+const generateCorporateInsuranceId = async () => {
+    let corpInsId = 'AIBICI' + ('' + Math.random()).substring(2, 8);
+    let checkCorpInsId = await CorporateInsurance.findOne({ corpInsId });
+    while (checkCorpInsId) {
+        corpInsId = 'AIBICI' + ('' + Math.random()).substring(2, 8);
+        checkCorpInsId = await CorporateInsurance.findOne({ corpInsId });
     }
     return corpInsId;
 };
 
-const createCorpIns = asynchandler(async(req,res)=>{
-    const {
-        productId
-    } = req.body;
+const createCorpIns = asyncHandler(async (req, res) => {
+    const {} = req.body;
 
-    if(!(productId)){
-        throw new apiError(400,'All fields are required');
-    }
+    const corporateInsuranceId = await generateCorporateInsuranceId();
 
-    const oldCorpIns = await CorporateInsurance.findOne({prod});
-    if(oldCorpIns?._id){
-        throw new apiError(400,'Corporate Insurance already exists');
-    }
-
-    const corpInsId = await generateCorpInsId();
-
-    const newCorpIns = CorporateInsurance.create({
-        corpInsId,
-        name,
-        address,
-        contactDetails,
-        rmId
+    const corpIns = await CorporateInsurance.create({
+        corporateInsuranceId,
     });
 
-    return res.status(201).json(apiResponse(201,newCorpIns,"Corporate Insurance created successfully"));
-
+    return res
+        .status(201)
+        .json(new apiResponse(201, corpIns, 'Corporate Insurance created.'));
 });
+
+const getCorpIns = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const corpIns = await CorporateInsurance.findById(id);
+    if (!corpIns) {
+        throw new apiError(404, 'Corporate Insurance not found');
+    }
+    return res
+        .status(200)
+        .json(new apiResponse(200, corpIns, 'Corporate Insurance returned.'));
+});
+
+const getCorpInsById = asyncHandler(async (req, res) => {
+    const { corporateInsuranceId } = req.params;
+    const corpIns = await CorporateInsurance.findOne({ corporateInsuranceId });
+    if (!corpIns) {
+        throw new apiError(404, 'Corporate Insurance not found');
+    }
+    return res
+        .status(200)
+        .json(new apiResponse(200, corpIns, 'Corporate Insurance returned.'));
+});
+
+export { createCorpIns, getCorpIns, getCorpInsById };
