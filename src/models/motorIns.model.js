@@ -29,7 +29,7 @@ const motorInsuranceSchema = new Schema(
         productId: {
             type: Schema.Types.ObjectId,
             ref: 'Product',
-            required: true,
+            // required: true,
         },
         motorInsuranceId: {
             type: String,

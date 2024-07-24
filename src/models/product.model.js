@@ -4,7 +4,6 @@ const productSchema = new Schema(
     {
         policyId: {
             type: String,
-            required: true,
         },
         insCompanyId: {
             type: Schema.Types.ObjectId,

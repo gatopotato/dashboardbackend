@@ -5,10 +5,10 @@ import { asyncHandler } from '../utils/asyncHandler.js';
 
 const generateInsCompId = async () => {
     let corpInsId = 'AIBIC' + ('' + Math.random()).substring(2, 7);
-    let checkCorpIns = await CorporateInsurance.findOne({ corpInsId });
+    let checkCorpIns = await InsCompany.findOne({ corpInsId });
     while (checkCorpIns) {
         corpInsId = 'AIBIC' + ('' + Math.random()).substring(2, 7);
-        checkCorpIns = await CorporateInsurance.findOne({ corpInsId });
+        checkCorpIns = await InsCompany.findOne({ corpInsId });
     }
     return corpInsId;
 };

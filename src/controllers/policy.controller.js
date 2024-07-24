@@ -7,12 +7,13 @@ import { Head } from '../models/head.model.js';
 import { Agent } from '../models/agent.model.js';
 import { RelationshipManager } from '../models/relationshipManager.model.js';
 import { InsCompany } from '../models/insComp.model.js';
+import { Customer } from '../models/customer.model.js';
 const generateBookingNo = async () => {
     let bookingNo = 'AIBSBK' + ('' + Math.random()).substring(2, 8);
-    let checkBookingNo = await Booking.findOne({ bookingNo });
+    let checkBookingNo = await Policy.findOne({ bookingNo });
     while (checkBookingNo) {
         bookingNo = 'AIBSBK' + ('' + Math.random()).substring(2, 8);
-        checkBookingNo = await Booking.findOne({ bookingNo });
+        checkBookingNo = await Policy.findOne({ bookingNo });
     }
     return bookingNo;
 };
@@ -139,6 +140,7 @@ const createPolicy = asyncHandler(async (req, res) => {
         idvValue,
         netOdPremium,
         commPremium,
+        netPremium,
     } = req.body;
     if (
         !(
@@ -153,10 +155,16 @@ const createPolicy = asyncHandler(async (req, res) => {
             ncb &&
             idvValue &&
             netOdPremium &&
-            commPremium
+            commPremium &&
+            netPremium
         )
     ) {
         throw new apiError(400, 'All fields are required');
+    }
+    const insCompany = await InsCompany.findById(insuranceCompanyId);
+
+    if (!insCompany) {
+        throw new apiError(404, 'Insurance Company not found');
     }
     const head = await Head.findById(headId);
     if (!head) {
@@ -184,6 +192,7 @@ const createPolicy = asyncHandler(async (req, res) => {
             throw new apiError(404, 'Agent not found');
         }
         const newPolicy = await Policy.create({
+            insuranceCompanyId: insCompany._id,
             headId: head._id,
             relationshipManagerId: rm._id,
             agentId: agent._id,
@@ -197,6 +206,7 @@ const createPolicy = asyncHandler(async (req, res) => {
             netOdPremium,
             commPremium,
             bookingNo,
+            netPremium,
         });
 
         product.policyId = newPolicy._id;
@@ -207,6 +217,7 @@ const createPolicy = asyncHandler(async (req, res) => {
             .json(new apiResponse(200, newPolicy, 'Policy created.'));
     }
     const newPolicy = await Policy.create({
+        insuranceCompanyId: insCompany._id,
         headId: head._id,
         relationshipManagerId: rm._id,
         policyNo,
@@ -219,6 +230,7 @@ const createPolicy = asyncHandler(async (req, res) => {
         netOdPremium,
         commPremium,
         bookingNo,
+        netPremium,
     });
 
     product.policyId = newPolicy._id;

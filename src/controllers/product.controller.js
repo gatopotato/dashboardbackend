@@ -25,8 +25,11 @@ const createProduct = asyncHandler(async (req, res) => {
         throw new apiError(404, 'InsCompany not found');
     }
     let ins;
+    console.log(type);
+    console.log(insId);
     if (type === 'motor') {
         ins = await MotorInsurance.findById(insId);
+        console.log(ins);
     } else if (type === 'health') {
         ins = await HealthInsurance.findById(insId);
     } else if (type === 'life') {
@@ -34,7 +37,7 @@ const createProduct = asyncHandler(async (req, res) => {
     } else if (type === 'corporate') {
         ins = await CorporateInsurance.findById(insId);
     } else {
-        throw new apiError(404, 'Insurance not found');
+        throw new apiError(404, 'Insurance type not valid');
     }
 
     if (!ins) {
@@ -42,7 +45,7 @@ const createProduct = asyncHandler(async (req, res) => {
     }
 
     const productId = await generateProductId();
-
+    console.log(productId);
     const product = await Product.create({
         insCompanyId,
         type,

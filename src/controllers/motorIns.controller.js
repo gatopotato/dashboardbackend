@@ -19,6 +19,12 @@ const createMotorInsurance = asyncHandler(async (req, res) => {
 
     const motorInsuranceId = await generateMotorInsuranceId();
 
+    const alreadyExists = await MotorInsurance.findOne({ vehicleNo });
+
+    if (alreadyExists) {
+        throw new apiError(400, 'Motor Insurance already exists');
+    }
+
     const motorInsurance = await MotorInsurance.create({
         vehicleNo,
         model,
