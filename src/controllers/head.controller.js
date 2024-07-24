@@ -83,7 +83,7 @@ const loginHead = asyncHandler(async (req, res) => {
     );
 
     const options = {
-        httpOnly: false,
+        httpOnly: true,
         // secure: true,
         sameSite: 'None',
     };
@@ -120,7 +120,7 @@ const logoutHead = asyncHandler(async (req, res) => {
     );
 
     const options = {
-        httpOnly: false,
+        httpOnly: true,
         // secure: true,
         sameSite: 'None',
     };
@@ -158,7 +158,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
         const { accessToken, refreshToken } = await generateTokens(head._id);
 
         const options = {
-            httpOnly: false,
+            httpOnly: true,
             // secure: true,
             sameSite: 'None',
         };
